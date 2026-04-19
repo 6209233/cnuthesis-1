@@ -52,9 +52,13 @@
 
 \setmainfont[Ligatures=TeX]{Times New Roman}%%英文使用Times New Roman字体
 
-%% 使用华文中宋作为加粗宋体（PS：直接加粗太丑了……）
-\setCJKfamilyfont{cusong}{STZhongsong}
-\newcommand{\cusong}{\CJKfamily{cusong}} 
+%% 使用华文中宋作为加粗宋体（PS：直接加粗太丑了……）| 更换为思源宋体
+\setCJKfamilyfont{cusong}[
+  Path        = ./font/,                    % 相对 main.tex 的路径
+  Extension   = .otf,                       % 或 .ttf，根据实际文件
+  UprightFont = SourceHanSerifSC-SemiBold   % 常规体，不带扩展名
+]{}
+\newcommand{\cusong}{\CJKfamily{cusong}}
 
 %%图表连续编号，与章节无关
 \RequirePackage{remreset}
@@ -487,14 +491,24 @@
 %%段落缩进：2个中文字符
 %%脚注：以带圈阿拉伯数字编号，按页编号
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%对章标签及标题字号的设置用format一并设置不起作用, 要用titleformat, nameformat分别设置
-\CTEXsetup[nameformat={{\centering\sanhao\cusong}}]{chapter}%\bfseries\songti
-\CTEXsetup[titleformat={{\centering\sanhao\cusong}}]{chapter}%\bfseries\songti
-\CTEXsetup[number={\arabic{chapter}}]{chapter}
-\CTEXsetup[beforeskip={-2em},afterskip={0em}]{chapter}
-\CTEXsetup[format={{\flushleft\xiaosanhao\cusong}}]{section}
-\CTEXsetup[format={{\flushleft\sihao\cusong}}]{subsection}
-\CTEXsetup[format={{\flushleft\xiaosihao\cusong}}]{subsubsection}
+%%对章标签及标题字号的设置用format一并设置不起作用, 要用titleformat, nameformat分别设置 | 更改为ctexset设置
+\ctexset{
+  chapter = {
+    number = \arabic{chapter},
+    format = \centering\zihao{3}\bfseries\songti,
+    beforeskip = -2em,
+    afterskip = 1em,
+  },
+  section = {
+    format = \flushleft\zihao{-3}\bfseries\songti,
+  },
+  subsection = {
+    format = \flushleft\zihao{4}\bfseries\songti,
+  },
+  subsubsection = {
+    format = \flushleft\zihao{-4}\bfseries\songti,
+  }
+}
 %%带圈脚注
 \DefineFNsymbols{circled}{{\ding{192}}{\ding{193}}{\ding{194}}{\ding{195}}{\ding{196}}{\ding{197}}{\ding{198}}{\ding{199}}{\ding{200}}{\ding{201}}}
 \setfnsymbol{circled}
